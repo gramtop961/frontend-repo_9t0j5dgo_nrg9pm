@@ -49,7 +49,7 @@ export default function Hero() {
           scene="https://prod.spline.design/kqB-rdL4TCJ7pyGb/scene.splinecode"
           style={{ width: "100%", height: "100%" }}
         />
-        {/* Soft overlays to ensure visibility without hiding the animation */}
+        {/* Readability overlays that do not block pointer events */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
       </div>
@@ -62,7 +62,7 @@ export default function Hero() {
           Launch your next idea with an AI agent that designs, codes, and deploys.
         </p>
 
-        <div className="mx-auto mt-8 max-w-2xl text-left backdrop-blur-sm/0">
+        <div className="mx-auto mt-8 max-w-2xl text-left">
           <label htmlFor="projectName" className="block text-sm font-medium text-white/85">
             Project name (optional)
           </label>
@@ -86,9 +86,7 @@ export default function Hero() {
             rows={5}
             className="mt-1 w-full rounded-md border border-white/10 bg-white/10 px-3 py-2 text-white placeholder-white/50 shadow focus:border-[#74ACDF] focus:outline-none focus:ring-2 focus:ring-[#74ACDF]/40"
           />
-          <div className="mt-2 text-right text-xs text-white/60">
-            {projectBrief.length}/2000
-          </div>
+          <div className="mt-2 text-right text-xs text-white/60">{projectBrief.length}/2000</div>
 
           <div className="mt-6 flex items-center justify-start gap-3">
             <button
