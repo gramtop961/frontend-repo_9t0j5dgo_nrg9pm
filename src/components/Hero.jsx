@@ -1,71 +1,66 @@
-import React, { useMemo } from "react";
+import { useState } from "react";
 import Spline from "@splinetool/react-spline";
 
-export default function Hero() {
-  // Gather minimal, non-sensitive context to send when user clicks Start Building
-  const payload = useMemo(() => ({
-    brand: "AI FORGE",
-    intent: "start_building",
-    timestamp: new Date().toISOString(),
-    // Page snapshot: basic info; avoid heavy or sensitive content
-    page: {
-      title: "Build stunning websites and mobile apps with your voice.",
-      tagline:
-        "Describe what you want. Our AI crafts pixel-perfect designs, clean code, and deploys to the cloud in minutes.",
-    },
-    ui: {
-      hasSpline: true,
-      components: ["Navbar", "Hero"],
-    },
-  }), []);
+const WEBHOOK_URL = "https://davedandemo.app.n8n.cloud/webhook-test/06a670b3-4a9e-4c20-90d8-8f5eb507affe";
 
-  async function handleStart() {
+export default function Hero() {
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
+
+  const handleStart = async () => {
+    setLoading(true);
+    setStatus("");
     try {
-      await fetch(
-        "https://davedandemo.app.n8n.cloud/webhook-test/06a670b3-4a9e-4c20-90d8-8f5eb507affe",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
-      // Optional: basic feedback
-      alert("Sent to webhook. We'll reach out shortly!");
+      const payload = {
+        brand: "AI FORGE",
+        intent: "start_building",
+        timestamp: new Date().toISOString(),
+        page: { title: "AI FORGE", tagline: "Build with an AI coding agent" },
+        ui: { hasSpline: true, components: ["Navbar", "Hero"] },
+      };
+
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("Webhook failed");
+      setStatus("Sent! Check your workflow.");
     } catch (e) {
-      console.error(e);
-      alert("Unable to reach webhook. Please try again.");
+      setStatus("Something went wrong. Try again.");
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <section className="relative min-h-[80vh] w-full overflow-hidden">
-      <div className="absolute inset-0">
+    <section className="relative isolate">
+      <div className="relative h-[60vh] w-full overflow-hidden">
         <Spline
           scene="https://prod.spline.design/4cHQr84zOGAHOehh/scene.splinecode"
           style={{ width: "100%", height: "100%" }}
         />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-24 pb-20">
-        <div className="max-w-3xl">
-          <span className="inline-flex items-center rounded-full bg-white/70 backdrop-blur px-3 py-1 text-xs font-medium text-slate-700 ring-1 ring-black/5">
-            AI Website & App Builder
-          </span>
-          <h1 className="mt-6 text-4xl sm:text-6xl font-semibold tracking-tight text-slate-900">
-            Build stunning websites and mobile apps with your voice.
-          </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-700 max-w-2xl">
-            Describe what you want. Our AI crafts pixel-perfect designs, clean code, and deploys to the cloud in minutes.
-          </p>
-          <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <button onClick={handleStart} className="inline-flex items-center justify-center rounded-md bg-slate-900 text-white px-5 py-3 text-sm font-medium hover:bg-slate-800">
-              Start building
-            </button>
-          </div>
+      <div className="mx-auto -mt-40 max-w-4xl px-4 text-center">
+        <h1 className="text-4xl font-extrabold tracking-tight text-[#74ACDF] sm:text-6xl">
+          AI FORGE
+        </h1>
+        <p className="mx-auto mt-4 max-w-2xl text-balance text-lg text-white/80">
+          Launch your next idea with an AI agent that designs, codes, and deploys.
+        </p>
+        <div className="mt-8 flex items-center justify-center gap-3">
+          <button
+            onClick={handleStart}
+            disabled={loading}
+            className="rounded-md bg-[#0A84FF] px-6 py-3 text-sm font-semibold text-white shadow ring-1 ring-white/10 transition hover:bg-[#0066CC] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0A84FF] disabled:opacity-60"
+          >
+            {loading ? "Sending..." : "Start building"}
+          </button>
+          {status && <span className="text-sm text-white/70">{status}</span>}
         </div>
       </div>
-
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(168,85,247,0.18),rgba(59,130,246,0.14),rgba(249,115,22,0.12)_70%)]" />
     </section>
   );
 }

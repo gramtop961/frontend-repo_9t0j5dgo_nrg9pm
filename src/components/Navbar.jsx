@@ -1,15 +1,10 @@
-import React from "react";
+import Logo from "./Logo";
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-white/60 bg-white/70 border-b border-black/5">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-purple-500 via-blue-500 to-orange-400" />
-          <span className="font-semibold tracking-tight">AI FORGE</span>
-        </div>
-        {/* Minimal header per request: no feature/how/pricing links, no sign in or launch */}
-        <div className="hidden md:flex items-center gap-4" />
+    <header className="sticky top-0 z-40 w-full border-b border-black/20 bg-gradient-to-b from-[#0A0F1F] to-black/95 backdrop-blur supports-[backdrop-filter]:bg-[#0A0F1F]/80">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+        <Logo />
       </div>
     </header>
   );
