@@ -1,6 +1,42 @@
+import React, { useMemo } from "react";
 import Spline from "@splinetool/react-spline";
 
 export default function Hero() {
+  // Gather minimal, non-sensitive context to send when user clicks Start Building
+  const payload = useMemo(() => ({
+    brand: "AI FORGE",
+    intent: "start_building",
+    timestamp: new Date().toISOString(),
+    // Page snapshot: basic info; avoid heavy or sensitive content
+    page: {
+      title: "Build stunning websites and mobile apps with your voice.",
+      tagline:
+        "Describe what you want. Our AI crafts pixel-perfect designs, clean code, and deploys to the cloud in minutes.",
+    },
+    ui: {
+      hasSpline: true,
+      components: ["Navbar", "Hero"],
+    },
+  }), []);
+
+  async function handleStart() {
+    try {
+      await fetch(
+        "https://davedandemo.app.n8n.cloud/webhook-test/06a670b3-4a9e-4c20-90d8-8f5eb507affe",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+      // Optional: basic feedback
+      alert("Sent to webhook. We'll reach out shortly!");
+    } catch (e) {
+      console.error(e);
+      alert("Unable to reach webhook. Please try again.");
+    }
+  }
+
   return (
     <section className="relative min-h-[80vh] w-full overflow-hidden">
       <div className="absolute inset-0">
@@ -22,12 +58,9 @@ export default function Hero() {
             Describe what you want. Our AI crafts pixel-perfect designs, clean code, and deploys to the cloud in minutes.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3">
-            <a href="#start" className="inline-flex items-center justify-center rounded-md bg-slate-900 text-white px-5 py-3 text-sm font-medium hover:bg-slate-800">
+            <button onClick={handleStart} className="inline-flex items-center justify-center rounded-md bg-slate-900 text-white px-5 py-3 text-sm font-medium hover:bg-slate-800">
               Start building
-            </a>
-            <a href="#demo" className="inline-flex items-center justify-center rounded-md bg-white/80 backdrop-blur text-slate-900 px-5 py-3 text-sm font-medium ring-1 ring-black/10 hover:bg-white">
-              Watch demo
-            </a>
+            </button>
           </div>
         </div>
       </div>
