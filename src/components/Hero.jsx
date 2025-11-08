@@ -44,25 +44,29 @@ export default function Hero() {
 
   return (
     <section className="relative isolate">
-      <div className="relative h-[78vh] w-full overflow-hidden">
+      {/* Full-width Spline cover (no UI layered on top) */}
+      <div className="relative h-[72vh] w-full overflow-hidden bg-black">
         <Spline
-          scene="https://prod.spline.design/kqB-rdL4TCJ7pyGb/scene.splinecode"
+          scene="https://prod.spline.design/t7ourXf4CdN9XTF3/scene.splinecode"
           style={{ width: "100%", height: "100%" }}
         />
-        {/* Readability overlays that do not block pointer events */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30" />
+        {/* Keep overlays non-interactive and subtle for depth while preserving the dark theme */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black" />
       </div>
 
-      <div className="mx-auto -mt-44 max-w-4xl px-4 text-center">
-        <h1 className="text-4xl font-extrabold tracking-tight text-[#74ACDF] sm:text-6xl">
-          AI FORGE
-        </h1>
-        <p className="mx-auto mt-4 max-w-2xl text-balance text-lg text-white/85">
-          Launch your next idea with an AI agent that designs, codes, and deploys.
-        </p>
+      {/* Content section on solid black background (no background behind title) */}
+      <div className="bg-black py-16">
+        <div className="mx-auto max-w-4xl px-4 text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight text-[#74ACDF] sm:text-6xl">
+            AI FORGE
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-balance text-lg text-white/85">
+            Launch your next idea with an AI agent that designs, codes, and deploys.
+          </p>
+        </div>
 
-        <div className="mx-auto mt-8 max-w-2xl text-left">
+        <div className="mx-auto mt-10 max-w-2xl px-4 text-left">
           <label htmlFor="projectName" className="block text-sm font-medium text-white/85">
             Project name (optional)
           </label>
